@@ -1,0 +1,40 @@
+
+<html><head>
+<link rel="stylesheet" href="css/styles.css">
+<script src="js/dosage.js"></script>
+<link rel="icon" href="images/favicon.png">
+<meta charset="UTF-8">
+</head>
+<body>
+<h1>Configuration Dosage Proportionnel</h1>
+<input id="debit_maxi" placeholder="Débit maxi installation (m³/h)"><br>
+<input id="debit_pompe" placeholder="Débit maxi pompe doseuse (l/h)"><br>
+<input id="pourcentage" placeholder="% injection souhaité"><br>
+<button onclick="calculerDosage()">Calculer</button>
+<div id="resultat"></div>
+<div id="instructions"></div>
+
+<button onclick="location.href='index.html'">Retour accueil</button>
+
+<footer>Aqua'Tec, ZA les grands Varays, 01540 Vonnas, France<br>www.aqua-tec.fr</footer>
+
+<script>
+function calculerDosage(){
+    let debit_maxi = parseFloat(document.getElementById('debit_maxi').value);
+    let debit_pompe = parseFloat(document.getElementById('debit_pompe').value);
+    let pourcentage = parseFloat(document.getElementById('pourcentage').value)/100;
+    let rate_max = (debit_pompe/pourcentage)/1000;
+    document.getElementById('resultat').innerHTML = "<strong>RATE MIN :</strong> 0 m³/h<br><strong>RATE MAX :</strong> " + rate_max.toFixed(2) + " m³/h";
+
+    document.getElementById('instructions').innerHTML = `
+        <h3>🛠️ Comment configurer ces paramètres :</h3>
+        <ol>
+            <li>Appuyez pendant 7 secondes sur la touche <strong>PROG/ENTER</strong> pour entrer dans le menu de configuration.</li>
+            <li>Utilisez les flèches 🔼🔽 pour naviguer jusqu'au menu <strong>6 ANALOG</strong>, puis appuyez sur <strong>PROG/ENTER</strong>.</li>
+            <li>Allez au paramètre <strong>62 RATE-MIN</strong>, appuyez sur <strong>PROG/ENTER</strong>, entrez la valeur <strong>0</strong> puis validez avec <strong>PROG/ENTER</strong>.</li>
+            <li>Naviguez ensuite vers le paramètre <strong>63 RATE-MAX</strong>, appuyez sur <strong>PROG/ENTER</strong>, entrez la valeur calculée (<strong>${rate_max.toFixed(2)}</strong> m³/h), puis validez avec <strong>PROG/ENTER</strong>.</li>
+            <li>Appuyez plusieurs fois sur la touche 🔄 <strong>CLEAR</strong> pour sortir du menu de configuration.</li>
+        </ol>`;
+}
+</script>
+</body></html>
